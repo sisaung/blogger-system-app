@@ -1,0 +1,30 @@
+{
+  "posts": [
+    {
+      "title": "vue",
+      "body": "vue",
+      "tags": [
+        "vue",
+        "django"
+      ],
+      "id": 1
+    },
+    {
+      "title": "react",
+      "body": "react",
+      "tags": [
+        "react",
+        "django"
+      ],
+      "id": 2
+    },
+    {
+      "title": "docker",
+      "body": "docker",
+      "tags": [
+        "docker"
+      ],
+      "id": 3
+    }
+  ]
+}
