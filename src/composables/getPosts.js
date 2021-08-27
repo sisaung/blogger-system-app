@@ -6,7 +6,7 @@ let getPosts = ()=> {
     let error = ref("");
     let load = async()=> {
         try{
-           let res = await db.collection('posts').get()
+           let res = await db.collection('posts').orderBy("created_at", "desc").get()
                     // console.log(res.docs);
               posts.value = res.docs.map((doc) => {
                     return {id:doc.id ,...doc.data()}
