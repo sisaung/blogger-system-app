@@ -3,6 +3,10 @@
           {{error}}
         </div>
 
+        <div v-if="modalDelete">
+            <DeleteModal :deleteId="id" :cancle="modalDelete" @cancle="canclePost"></DeleteModal>
+        </div>
+        
         <div v-if="post" class="post">
 
           <div>
@@ -20,9 +24,7 @@
             <Spinner></Spinner>
         </div>
 
-      <div v-if="modalDelete">
-        <DeleteModal :deleteId="id" :cancle="modalDelete" @cancle="canclePost"></DeleteModal>
-      </div>
+     
 
 </template>
 

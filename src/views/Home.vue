@@ -1,9 +1,10 @@
 <template>
   
     <div class="home">
+      <FilterNav @filter="current = $event" :current="current"></FilterNav>
       <div v-if="posts.length > 0 " class="layout" >
            <div>
-             <PostLists :posts="posts"></PostLists>
+             <PostLists :posts="filterPost"></PostLists>
            </div>
 
             <div>
@@ -19,20 +20,45 @@
 </template>
 
 <script>
+import FilterNav from '../components/FilterNav'
 import Spinner from '../components/Spinner'
 import TagCloud from '../components/TagCloud'
 import PostLists from '../components/PostLists'
 import getPosts from "../composables/getPosts"
+import { computed, ref } from '@vue/reactivity'
+import { db } from '../firebase/config'
 export default {
   components: {
+    FilterNav,
     Spinner,
     TagCloud, PostLists },
   
-  setup(){
-     let {posts, error, load}= getPosts(); //{posts,error,load}
+  setup(props, { emit }){
+    let recent = ref([]);
+    let current = ref("recent");
+    let {posts, error, load}= getPosts(); //{posts,error,load}
      load();
 
-     return { posts, error }
+     let filterPost =  computed(() => {
+
+        if( current.value === 'recent') {
+            let recentPost = async () => {
+            let res = await db.collection("posts").orderBy("created_at", "desc").limit(4).get()
+              recent.value = res.docs.map((doc) => {
+                return { id:doc.id, ...doc.data()}
+               })
+           }
+            recentPost();
+                
+          return recent.value
+        }
+        
+        else if ( current.value === 'all') {
+            return posts.value
+        }
+     })
+      
+     return { posts, error, current, filterPost }
   }
 }
 </script>
