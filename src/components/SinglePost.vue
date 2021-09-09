@@ -21,12 +21,13 @@
 
 <script>
 import { computed } from '@vue/reactivity'
+import { formatDistanceToNow } from "date-fns"
 export default {
     props:['post'],
 
     setup(props) {
         let timestamp = props.post.created_at;
-        let dateTime = timestamp.toDate();
+        let dateTime = formatDistanceToNow(timestamp.toDate());
         // console.log(dateTime);
         let postCutBody = computed(()=> {
              
